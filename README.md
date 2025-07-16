@@ -3,16 +3,14 @@
 This repository contains all the information you need to build a standalone, MP3-based audio system for playing Vedic chants. Developed during a 45-day internship at CSIR-CEERI, Pilani, this project utilizes the GPD2846A module to offer a simple, cost-effective, and enjoyable way to listen to sacred chants.
 
 🌟 Why This System?
+
 Whether for personal devotion, meditation, or simply to immerse yourself in the rich tradition of Vedic chanting, this system provides a dedicated and easy-to-use solution. It's designed to be beginner-friendly and requires no complex programming, making it an ideal project for anyone interested in electronics and spiritual practices.
 
 🔧 Features
-Microcontroller-Free Design: Simplifies the build process significantly.
-
-Rechargeable: Equipped with a USB-C port for convenient charging.
-
-Intuitive Controls: Easily adjust volume and navigate tracks.
-
-Low-Cost & Accessible: Built with readily available and affordable components.
+ - Microcontroller-Free Design: Simplifies the build process significantly.
+ - Rechargeable: Equipped with a USB-C port for convenient charging.
+ - Intuitive Controls: Easily adjust volume and navigate tracks.
+ - Low-Cost & Accessible: Built with readily available and affordable components.
 
 🧩 Components Used
  
