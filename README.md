@@ -1,6 +1,6 @@
 # Vedic-Chanting-Machine
 
-This repository contains all the information you need to build a standalone, MP3-based audio system for playing Vedic chants. Developed during a 45-day internship at CSIR-CEERI, Pilani, this project utilizes the GPD2846A module to offer a simple, cost-effective, and enjoyable way to listen to sacred chants.
+This repository contains all the information you need to build a standalone, MP3-based audio system for playing Vedic chants. This project utilizes the GPD2846A module to offer a simple, cost-effective, and enjoyable way to listen to sacred chants.
 
 🌟 Why This System?
 
