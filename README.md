@@ -30,9 +30,9 @@ Whether for personal devotion, meditation, or simply to immerse yourself in the 
 
 📷 Visual Guides & Documentation
 
- - Project Images: See the system in action in the /images folder.
+ - Component Gallery: See the project components in the /Component folder.
  - Circuit Diagram: Find the detailed wiring instructions in the /circuit-diagrams folder.
- - Thesis / Report: For comprehensive documentation and insights into the development process, refer to the /docs folder.
+ - Thesis / Report: For comprehensive documentation and insights into the development process, refer to the /Thesis folder.
 
 ✅ Future Enhancements
 
