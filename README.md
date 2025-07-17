@@ -40,3 +40,19 @@ Whether for personal devotion, meditation, or simply to immerse yourself in the 
  - Bluetooth Support: For wireless connectivity and audio streaming.
  - Arduino-Based Upgrade: To introduce more advanced features and customization options.
 
+✨ Acknowledgment
+
+ - This project was developed during a 45-day internship at CSIR-CEERI, Pilani. I would like to acknowledge my mentor, Gaurav Pourohit (Principal Scientist, CSIR-CEERI, Pilani), for his guidance and support throughout this project.
+
+
+
+
+
+
+
+
+
+
+
+
+
