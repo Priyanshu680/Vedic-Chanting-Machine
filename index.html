@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Chanting System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://rsms.me/">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FAF0E6; /* Linen - A warmer off-white */
+            color: #120c0c;
+        }
+        .header-bg {
+            background: linear-gradient(rgba(0, 0, 0, 0.962), rgba(0, 0, 0, 0.956)), url('https://images.unsplash.com/photo-1547891654-e66ed711b999?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80') center center/cover no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .flow-arrow-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 2px;
+            background-color: #050506;
+            margin: 0 1rem;
+            flex-grow: 1;
+        }
+        .flow-arrow-right::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: -4px;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 7px solid #06080b;
+        }
+
+        /* Accordion specific styles for smooth transition */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 500px; /* Adjust as needed to fit content */
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease-in-out;
+        }
+        .accordion-button[aria-expanded="true"] svg {
+            transform: rotate(180deg);
+        }
+
+        /* How It Works Stepper styles */
+        .stepper-item.active .stepper-circle {
+            background-color: #4F46E5; /* Indigo-600 */
+            color: white;
+            box-shadow: 0 0 0 8px rgba(79, 70, 229, 0.2); /* Ring effect */
+            transition: all 0.3s ease-in-out;
+        }
+        .stepper-item.active h3 {
+            color: #1A202C; /* Gray-900 */
+            transition: color 0.3s ease-in-out;
+        }
+        .stepper-item.active p {
+            color: #4A5568; /* Gray-700 */
+            transition: color 0.3s ease-in-out;
+        }
+        .stepper-item .stepper-circle {
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Typing Effect for Hero Title */
+        .typing-effect {
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .05em;
+            animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white; }
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Slide-in from Bottom Animation */
+        .slide-in-bottom {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .slide-in-bottom.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered Fade-in for Circuit Diagram */
+        .stagger-fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        .stagger-fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Image Carousel Zoom on Active */
+        .carousel-image-wrapper {
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-image-wrapper.active-zoom img {
+            transform: scale(1.03); /* Subtle zoom */
+            transition: transform 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <span class="text-xl font-bold text-gray-800">Vedic Chanting System</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#introduction" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">Introduction</a>
+                        <a href="#components" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">Components</a>
+                        <a href="#circuit" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">System Diagram</a>
+                        <a href="#working" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">How It Works</a>
+                        <a href="#gallery" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">Gallery</a>
+                        <a href="#analysis" class="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-200 hover:text-gray-900 transition-colors duration-300">Project Analysis</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <button type="button" id="mobile-menu-button" class="bg-gray-800 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#introduction" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Introduction</a>
+                <a href="#components" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Components</a>
+                <a href="#circuit" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">System Diagram</a>
+                <a href="#working" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">How It Works</a>
+                <a href="#gallery" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Gallery</a>
+                <a href="#analysis" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 block px-3 py-2 rounded-md text-base font-medium">Project Analysis</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="header-bg py-20 text-white text-center">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 id="hero-title" class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight drop-shadow-lg typing-effect">
+                    Vedic Chanting System
+                </h1>
+                <p class="mt-4 text-xl sm:text-2xl font-light">
+                    A self-contained, portable device for spiritual practice and cultural preservation.
+                </p>
+                <div class="mt-8 flex justify-center space-x-4">
+                    <a href="#components" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 shadow-lg">
+                        Explore Components
+                    </a>
+                    <a href="#analysis" class="inline-flex items-center justify-center px-6 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:text-gray-900 transition duration-300 shadow-lg">
+                        View Analysis
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="introduction" class="py-12 sm:py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:text-center">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase fade-in">Project Report</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl fade-in">
+                        Unveiling the Chanting System
+                    </p>
+                    <p class="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto fade-in">
+                        Developed during the 45 days internship at CSIR-CEERI, Pilani, this system offers a unique blend of simplicity and purpose.
+                    </p>
+                </div>
+
+                <div class="mt-12">
+                    <div class="grid grid-cols-1 gap-y-10 gap-x-6 lg:grid-cols-2 lg:gap-x-8">
+                        <div class="bg-green-100 p-6 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 fade-in">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Project Overview</h3>
+                            <p class="text-base text-gray-700">
+                                This project focuses on the design and development of a user-friendly, cost-effective Vedic Chanting Machine. It is engineered to provide a simple, distraction-free audio experience for users seeking to listen to Vedic chants without the need for a smartphone or internet connection. The core of the device is the GPD2846A MP3 decoder, which offers a robust, all-in-one solution for audio playback from a microSD card.
+                            </p>
+                        </div>
+                        <div class="bg-green-100 p-6 rounded-lg shadow-md transition-transform duration-300 hover:scale-105 fade-in">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2">Objectives</h3>
+                            <ul class="list-disc list-inside text-base text-gray-700 space-y-2">
+                                <li>Create a portable, standalone audio playback device.</li>
+                                <li>Ensure simple operation with minimal controls.</li>
+                                <li>Utilize readily available and low-cost electronic components.</li>
+                                <li>Implement a rechargeable power system for sustainability.</li>
+                                <li>Design for durability and ease of assembly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="components" class="h-[600px] pt-12 pb-6 sm:pt-16 sm:pb-8 bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+    <div class="text-center">
+      <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in">
+        Component Explorer
+      </h2>
+      <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 fade-in">
+        Discover the key electronic components that power the Vedic Chanting Machine. Click on a component to view its details and image.
+      </p>
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start h-[calc(100%-120px)]">
+      <!-- Component List -->
+      <div class="flex flex-col justify-center">
+        <ul id="component-list" class="space-y-4">
+          <li>
+            <button onclick="showComponent('battery')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🔋 3.7V LiPo Battery (500 mAh)
+            </button>
+          </li>
+          <li>
+            <button onclick="showComponent('potentiometer')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🎚️ 10 kΩ Potentiometer
+            </button>
+          </li>
+          <li>
+            <button onclick="showComponent('tp4056')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🔌 TP4056 Charging Module
+            </button>
+          </li>
+          <li>
+            <button onclick="showComponent('gpd')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🎵 GPD2846A MP3 Module
+            </button>
+          </li>
+          <li>
+            <button onclick="showComponent('switch')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🔘 On/Off Switch
+            </button>
+          </li>
+          <li>
+            <button onclick="showComponent('button')" class="w-full px-4 py-3 bg-white text-blue-700 font-semibold border border-blue-300 rounded-lg shadow-sm hover:bg-blue-100 transition duration-300">
+              🖲️ Push Button
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Component Display Box -->
+      <div id="component-display" class="h-[373px] p-6 bg-blue-100 rounded-lg shadow-xl flex flex-col justify-center items-center text-center border border-gray-200 transition-all duration-500 ease-in-out">
+        <p class="text-gray-500 text-lg">Select a component to see its details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const components = {
+    battery: {
+      name: "3.7V LiPo Battery (500 mAh)",
+      image: "data:image/jpeg;base64,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" // turn0image9
+    },
+    potentiometer: {
+      name: "10 kΩ Potentiometer",
+      image: "data:image/jpeg;base64,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"
+    },
+    tp4056: {
+      name: "TP4056 Charging Module",
+      image: "data:image/jpeg;base64,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"
+    },
+    gpd: {
+      name: "GPD2846A MP3 Module",
+      image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEBITEhEVExUVFxcQEBgXERIVFRYQGBUXFxUSFRUYHSggGB0lHhUXLT0iJSkrLjouFyAzOjMsNykuLisBCgoKDg0OGhAQGy0lICY1LS01LS8tLS0vMC0tKy0tLzUtNS8tKy0rLS0tLS0tLS0wLS0tLSstLS0tLS0tLS0tLf/AABEIAOEA4QMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABQYBBAcDAv/EADoQAAICAQMCBAQEBAYBBQEAAAECAAMRBBIhBTEGEyJBMlFhcRRCUoEHI5GhM2KxwdHhQxYkU4KSFf/EABgBAQADAQAAAAAAAAAAAAAAAAABAgME/8QAIxEBAAICAwACAgMBAAAAAAAAAAECESEDEjEyQSIjE0JhBP/aAAwDAQACEQMRAD8A7jERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQMREQMxEQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREDEREDMREBERAREQEREBERAREQEREBERAREEwESLp8RaR7xQlytYQTgHIyO67u2fp9DJSTMTCImJ8IiJCSIiAiIgIiIGIiIGYiICIiAiIgIiICIiAiIgIiYY4GT9zAzMEyq9Z8daWlhXURdYSEGHC1KxOPXaeMfbP7SneJOsauyvzr7VWkMUava6KWH6at2+0A8ZfHPdcS3SfvSn8keRtdereNdPUTXSDqbefTX8Ax3L2dgPtnHviUTrfiS7UZF1uRyTTQcVhR/wDLbzuH2yPqs+Hp3U+aB6XXCVvtquu03DEBF9JKfEHUfl7cAS6dHv6ZVpPMFdaK2EYBSzOzAgKAcsScHjnBBHtmaRMVjMQymLWnEyguieD9TeiWefVVVgWUrSWILj4WZh7g+5LHj2l08OdWe0NTeNmoq4tHYOvYXJ81P9j+059X1ptD51VFjJU53VIwU3Vn8wUZwoI/VgjvtPvsdK0HVHcahEZPL3MhsYtZYcHNZLHJU+4AVfcDIEi2Z3MlJiuqw6nEj+idVTVVCxOCDtsU/Elg+JG+skJk6CIiAiIgIiIGIiIGYiICIiAiIgIiICInxbaqKWZgoHJJIAA+ZJ7QPufLuFBJIAHJJOAB8yZS+u/xE09WV06+e/6uVrH792/YY+s571rxDqdWf512V7hB6UH2T3+5yZtThtb/ABhf/orXzbo/XP4gaanK0j8Q/wAwcVg/V/zf/UH7iUzrHXbNVT5mo1BCMQu1cV1o3O4eXkm0g7DgnlWOOQcVLqBevTm9QNgsFLMbFBDkZwEzluMdhxmRLvuPPPyP0lrdKaj1WkX5N28XHw+zuqrVphc1zMtTleMLjzULYztxjIBHDN7kEWLpvSg6jzwquP5Vril3bYwUJWDZhQeCpblhhTnuZzLQ6s0MzqG3bGRdtjVlSSDvBHfG3sQRLzoLXVtyg1V1Hbk60Oj6ndkWsylTYvJzt9PP3mdr9l68cV8apVqNRttrNFJC2oMC3UblOUVir5qYZYA5XA5+29cNjOMPRU7AtgqWqLYxZXaqgeXYMA7eASO4Cht3WaSvUVeVp3AV3YHya695sCqVL3twNuW9QyWUt3IYyD6XeyOdEjB9vxipFauxR3a6wtmxSrA7gRtx8Oe1YtidrWrmNL7p/CHTxpHO44ZebHYAqc//AJGD7f3MjOleJbtLp3pcpZ5bbdPeXJqavvjj1WY+SA/I4xmRLUWDbpdykBv5BsZmqGBh0ZPga2vPdlIIHA+GTjfw+dqnsfUm3UEBqm9W0EEEDvyOMdvftLYiPlKu5+MI/pPiC4ah9TWjWJjGrYIEV1HYqiggMMk5ZiT2yBxOm6TUpai2IwZWAZSPcGVHReLQNOyX0kamo+XbUAFzxnzfkqfXt/USF8NeLadPqTVwtNrZKqxZKLSe6ucek+4AwOCD3iazbyCLRX2XTogGJm2IiICIiBiIiBmIiAiIgIieGs1ldKF7XVFHcsQB9ufeB7zz1GoStSzsEUcksQAPuTKbrPHiO5r0q7jg7XZThiATtrr4LE4/MVH3ld6/03V6i0Lb57vksgwCppPCvjCrWcg5CgtgjI49V+uPlpnPJn47TvXv4j015XTJ5zfqbK1j6/qb+w+sgb+ma3qaWOdYlr1qtnlJ/hgNu2ojA7S3pPsfYZPtvdE/h7axDagrQufgQrbaRns1jDYoPHZC3+YS+9J6RRpU2UVhB79ySf8AMx5Pf3kzeI+CscdrfNxTRdLsxXZZVYtLv5W8DH8wggAcE4yMZ2n6ZPE2tXoazaq1mvcoO2sglrGFjFVfkgEqUBUkEnOABjF98T9FcKSvmXixsIGvKLTe75Fw2jGASMHBIKjHxGUXqo1Gn1L1WvtQ4ruNXqYOVJWxUBBAbDYBwoIOPlLTz2nakcFYnCv9dRFK66yrT2KN6VaQAqgA3c2KmMBdwPJy/H3kDbpmodarLKncotoFVm8IreoVMfZgMcc8Ecy7vWdMBYgrzYNqtaFsZcnK6qsHLKQMg8cEHvkSs6zpS1WHSV26UKz+bfrHrJ8plXJrru5byyR343M2OBMrR9tqz9SjFsk54b6mlFgZqtMRWLLgbN6lrMKQrMDtb4ThSO579hK5XctgLKQcHDYzjP6gDzg/XnmeqHvnge/t+8hd1SnVhNq2Cizg3MK7s16arzUPld2wVJyPblvygg6XiavUUj/29VGwqNlhqCLWgJ+Bs7mDA8byck49pEdE8SN5bVm7S1m99pY6fBWtEUiwbVKHkH0gZyfrNvpepVrnra9hziq1KhuCqGAWmsgeWWynYA+jaO8v1i0M5tNZbmkquspVLs+fYVdrbNyvvBGwrXuwPf8AmNs4JABzJjU9Z1f4Y1v5i+USLPLwnmAZPFx5VcAkqq5zkZXgSm67rWpSgUikO9bYW+xlVVqYbgtrDAc8gg57N7+/x/6sdaVQHzrdwey194TcMFdqAgnBUcnHvwcnNa2nyY0m1PuJ2mekaG/qTtWHrprUeY4OcBf1BMlrCP1MSee44m3V0TQarTuOnvZZfUDY4dSvnVdjsXsMEjHvzg9wRE+C+q1rcLnXUM9a73FSoQxZiucDkKS1Yxgj1H6S019Vp0rPs0i6BnQO3O4mthkeXgjA3flXHwjkc7dbXtNo6eMopWKz39bn8OvFG7GkuPqHGnY+4H/iP1Ht9OPbnoM4BrNbvcMihMElWBbeTuJDs5OWb6zq/gfxONZVssIF9Y9f+dewsH+/1+8nl48flCOHl/rK0RETB0kTBmYGIiIGYiICDE12uLOyKQCuCxPcA9iF9+x5+hgVnVeJNTqMjR0hVDbPNuyoPOGZF98H5nufhM0LvA9upZH1Gpsc8mxiO+cYWpDwi8H29+0uGg6XTTnYgBJLM3clj3Ofb9puyYtMeKTSJ+W0Z0foOm0gxVWAexY8ufu3+w4kliZiR6tEY8IiIS+Law6lWGQRgj5gznniXp34dBWjV0tUD+ExWXu1Tu24p2OWyozwx3BXys6NNLquja1P5bBLVy1DlQ22wqRkg9wQSCPkY82iYzGHA7XLMdxO/Jzu5bcDgg55z95t1U/iqDprbUooTddYT6WcA524HFrDJKhuxP04lPFXSwreaq3Pg7NZZairnVE5JGMZzn8oC8DBOZXq7NjKyj1KQy5wQCDkHHv9jOvMXq48Tx20hurO/l+dfalQqWvTaOkabZ51C/E6uoAIUk5Y59WRxkCR9mtrxknIPIA7zovVg1ho1vmk6xnX8LStSqlS8oGVbCQUIzg9tzE+xlT6f4PutYWahlcXvYH2NlxqD61UsFKkEkksgOMH2nL1l19oRfRLdVZdX+GyNzeUMKj8WBkbcGBXBGR6sDOMc8joHTT5iU1PpleyreqVVVvW5Zgd7u3JPGG9sMg4wcj38MdD09TXLQUbaDYVU2ulepwVUpcGH5QSAT3C+rIBnrXr2tFgp3HV0szb6gEC1dgVAAOwp3zjBGDnHNomtfVbRa3in+KEustr02y+3VhiVVHSysVBCzoVXtcCuTg4755kJpbg6gj5S/dR6H+KpYaSuxbF3NrtVe4Vq7MHeosByq5yTgFjgTn9+lwHfT6exadOlVeqdnDKbmJUWDIBCucYABx9MiReN7TSYxptVWFSGBIIIIIJByDn2+0uWgr/ABqfytPc9zvsR31CutSqwymMDjbYgy2O/BPM5z+Jdvh9K9tx9z8lH5j9BmTfQtCyAs2VYtkNkhymBgNzxzntjv8A0txVtM6V5bViNulayvS9KupX8N+MNi7mtcjZ8RRq6kwV3DHvz6gM8zX8R9Lt6Xqa76CVrY7qSfyN3alx7jH9vtNXw54qt0SmsAOhO5VPJQ9iyD/b6fUzy651173PlsW3L5bsVGXBx6ASMhQR2AHO48ZwNK0vW85nMMbXpamvXV/DnW69bQLF4I9Ni+6P7j7fIyVnLv4c6S5NTuDYUgi0ezD2B+oM6jMbxETp0cc2mv5EREquxERAzERAwTKv4m1Bosr1deSavReoz/M0pOWGPdlPqH2Yfmllu7SvdXrLAwLDp71sRXRgysAykdipGQRPSUXwT1H8PcdE59DbrNIfl72Uftyw+m75S9QEREBERAREQKr426dV5baixWZFB86sWlA/sthGQCy8d/b54AnL9D0lrCMPtLIbKcK7ktu2qrMowpO1+ew2HOJ3PVtUABYUwxAAcrgt3AGe54/tOP8AiW+rTpqqtM4sq3b6trPsFpwWpbaQH2quQeRgnPOJak/TO9fts6td9dW+prdR/ijy3VR8Pdrhw2djEkAn08tlSZH9U6stdiNXcyoyjYa2pDb19JTUvyMKwPA9BBGBgkjxs1A6lRSUtrrY7lSkISyOoAGG/IpKjBLDJIPGWnvRptOtbDVVrWHRWV2Ul7LgBttqQBSFGACoUDDEFgREWz4nrj1qVWamu02Giz8K3+JWHICkIBW1QbnaRjBAPoBxnYZuDw1Q+y3zDpjZSz2LkuTWpVgSD3GCMggHK5GcZkj0rqtSLcKCHsX+YGvOPTyXbIUu/IAyxHxk+n1SK6hqsivU1tvf4y6INhBByrjAzjGOQcqSDnblkUjtidZJvOMxvDe1yVscgaiuj0pemWr8+qsc43d2UDs3OAeFI5q3iHpSaxn/AA1XlU1AYVVBYAZJe185ZyFbnJO1SOwMkGSy0vYytarj4aid4tUj0ktkqOQffO8fNiJLrXUrdOtdVbovp5C5LJyMJtb4OwOO4IH6Qx0r71mNsrziO0TpUdJoFrwTyeBk8sccgfQfQcTbNvsP+/8AqZoodzx/39h/wJbeg+D7HILAqPqPV/wJrblrTUMq8dr7lW9JoXsOME59gMn9/wDuXfw/4OJwX4HyH+5lu6P4dqoAwo/3/rJtEAHE5rXm3rqpx1q0+ndNSlQFAGPlN6IlVyIiBiIiBmIiB8uJG6ynMlJr3pmBQPEXTiw3IdroRZUw7rYpyrD95b/C3WhrNOHxtsU+Xen6LV+IfY8EfQiafUdPnMrnR3bSdQRl/wAO8ii8e27/AMVn3DHH2f6SB0eIiSESA6v1fUHUHSaOtGtFa3W2WsRVTW7MqZVfVYxKPhRjheSOMxXgvxDqfxOp6f1BlOqqJtqdV2LfpWOVdV+a5xj/AFIJkZF0iQXiTxZo+nqTfYN3cIuC5+XHt+85F4g/ibq9aSKlGn0/IJLFd30LAZY/5VH7Sdz4Tr1ff4l+JenLpbaLmFrn4FXaSly8o248AqQDjn6jBkD0vo+lTRb9Rq1AvC6jT2KcsrY9Flaj1cdiAMYz79qp0joNrutlhCJwS7lQxGPSETlEH3JbJHClsj26v0pq2HpcVgKB6HCA4AKByBvGff8A17m9OHtaMyy5ObrXxaOhpQyi6tV8wbqrLKgzMxZSoCK4wpYsMBlIw2Py4Gr1LSaq5bLK1Rw4C3P6D8BO0m0ZVWA4I398/PEjPCAr/FhX4DDavyxuXzAPqa/MHz9XHMtmpbri9VUU8aMWIiIqL5P4XgM27HBxk985HA9je/67aUp+2u1L0qKA1dqqjAsHZ2sRthwrKB2DKCxwQc5xg++30+jT6dUdNURR5nmPUWxZ5g+E1qnI7DlgR2PuwG3/ABGFf43bQAfQvmYHAbJwP6Y/bHtiRfSfD1t5HG769lH7+/7S1+toiZlWnaszWsPE65zZadNvqR+4yBhf27dz27BiPvJ9D8K23EEjAPuwP9h/zLt0LwaiYZxuP24H2EuGm0ioOBM7ckz41pxRHqvdD8K10gEjJ+Z5P2llqpVewnpEzakREBERAREQMREQMxEQE+WE+ogR2qqzKx1arb68ZKEOB8yp3Af2lwvWQfUqMgwJzp+trvqS2ttyOodT9D8x7H6SK6uOoWs1dDV6WofFe4FtjDGSaqshUxn4nJ5B9OOTXvDHVV0V1tNrhaXzbST2Sz89Yx+ruB88+5kN/EzxGmpqSkV27N/mEh/KLhQRtckEKp3DuC3yUEZFZlOG1p/Eei6Ybq9K2o6lqrW33uXD5YDA3W8KFX5LkLnnEpXiHrus1F/4lubqEBQUYSvToxIBt1J5flvhUhT+phkSN6HqQ2oFdv8AK0hyzioNn0jIZicvYeO5JPPGJePx+nFLLpdMBS4al3as22XLkb0FQPHJX1OR34OeIjOcY0TMRDmNaW6i3cxOofPdt3lbj7KmMvz7nGT7GTR6LZUFe4bm5UElTtI52bFP8o4PwkAy1Dpvk+cgrejFStY29C9Q52gWLzhgwBGOGAzkSG0Cs9BWmoeUrBL7HdztYNneWc43HOcIuQCQF5Oeqtq1mMOS0WvE7WfwDpvxDHzGJCHAA+Laq52gjnJ4Ge+1GAxme/g/xMuv1TaZ+mpp63VzU6rhwq84s9ODn+meCDNDVa7/APnrTdQK0blXr3MWcjaOCAc4O8hi3wv8jg+9vi3UahcUUJpmf/EZQjWOPcD0jv8AMzPl3PaPGnFOI6z6qviSkUay2qvPof0Yz6TgMAD9M4+fEm+m9R6lanlNe5H6QAGx9Xxx/rJPpHhF7HL2ZG4lmJOXYnklm9v2l86V0KulQAoH7Rflm0YOPh6zlUui+Dc4Nn9B2/f3P7y76LpiVgAATdRAO0+pm2YAxMxEBERAREQEREBERAxERAzERAREQPixZHaunIkpPN65Ao/V+jGzHHIIZfoQciQV3hhrGzYS3yz2H2E6Y+nnk2jBjCXI+s+GQg3KucdxyAR9cczdbVPWqXaZWC1AWMqZVGoLEPSc8eZlX7eycs5wZ0XW9ODKeJzTrvTrdNcGrAOCWr3M2xGOP5m3OCcDHPHbvL0x5LLlj7hZ/EniHStVW9Vi+ZtN1PoD5RlIIZOAMDPB5yozxOf63+Y6eXnNZK709FbspHl3qBySRjI+YznnAken9At1DZYbjxztCqSBjcQO5+v/ADL10TwileCw3N8yP9B7SsajHqcTM58VDpfhq7UP5j5ye7MOcewUewAl/wCi+Gq6R259yeT/AFk5ptIqDgTYAj1aIiPHnVSF9p6xEJIiICIiAiIgIiICIiAiIgYiIgZiIgIiICIiBjExtn1ED4avMj9X0iuz4lB9xkSTiBpabpyJ2E3FXEzEBERAREQEREBERAREQEREBERAREQMREQMxEQEREBERACIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgYiIgZiIgIiICIiAiJ84gfUTGYzAzExEDMTGZmAjMRAREQEREBERAREQEREBERAxERAzMGIgJmIgIMRAwYiIGDERAyZiIgZiIgBMxEgIiJIREQEREBERAREQEREDERED//2Q=="
+    },
+    switch: {
+      name: "On/Off Switch",
+      image: "data:image/jpeg;base64,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"
+    },
+    button: {
+      name: "Push Button",
+      image: "data:image/jpeg;base64,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"
+    }
+  };
+
+  function showComponent(key) {
+    const comp = components[key];
+    document.getElementById("component-display").innerHTML = `
+      <h3 class="text-xl font-bold text-gray-800 mb-4">${comp.name}</h3>
+      <img src="${comp.image}" alt="${comp.name}" class="max-w-xs rounded-lg shadow-md" />
+    `;
+  }
+</script>
+
+
+        ---
+        
+        <section id="circuit" class="py-12 sm:py-16 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in">System & Circuit Diagram</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 fade-in">
+                        This diagram illustrates how the components are interconnected. The design is intentionally simple, removing the need for a microcontroller and relying on the integrated functionality of the GPD2846A module.
+                    </p>
+                </div>
+                <div class="mt-12 p-8 bg-white rounded-lg shadow-lg overflow-x-auto flex justify-center items-center">
+                    <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8 w-full">
+                        <div class="text-center p-4 border-2 border-green-500 rounded-lg bg-green-50 flex-shrink-0 min-w-[150px] transition-transform duration-300 hover:scale-105 hover:shadow-lg stagger-fade-in" style="transition-delay: 0s;">
+                            <h4 class="font-bold text-gray-900">Power Source</h4>
+                            <p class="text-sm text-gray-700">3.7V Li-ion Battery</p>
+                            <div class="text-4xl mt-2">🔋</div>
+                        </div>
+
+                        <div class="flow-arrow-right w-1/5 md:w-auto stagger-fade-in" style="transition-delay: 0.1s;"></div>
+
+                        <div class="text-center p-4 border-2 border-blue-500 rounded-lg bg-blue-50 flex-shrink-0 min-w-[150px] transition-transform duration-300 hover:scale-105 hover:shadow-lg stagger-fade-in" style="transition-delay: 0.2s;">
+                            <h4 class="font-bold text-gray-900">Charging & Power</h4>
+                            <p class="text-sm text-gray-700">TP4056 Module</p>
+                            <p class="text-sm text-gray-700">(via USB-C)</p>
+                            <div class="text-4xl mt-2">🔌</div>
+                        </div>
+
+                        <div class="flow-arrow-right w-1/5 md:w-auto stagger-fade-in" style="transition-delay: 0.3s;"></div>
+
+                        <div class="text-center p-4 border-2 border-red-500 rounded-lg bg-red-50 flex-shrink-0 min-w-[150px] transition-transform duration-300 hover:scale-105 hover:shadow-lg stagger-fade-in" style="transition-delay: 0.4s;">
+                            <h4 class="font-bold text-gray-900">Core Logic & Audio</h4>
+                            <p class="text-sm text-gray-700">GPD2846A MP3 Module</p>
+                            <div class="text-4xl mt-2">🎛️</div>
+                        </div>
+
+                        <div class="flow-arrow-right w-1/5 md:w-auto stagger-fade-in" style="transition-delay: 0.5s;"></div>
+                        
+                        <div class="text-center p-4 border-2 border-purple-500 rounded-lg bg-purple-50 flex-shrink-0 min-w-[150px] transition-transform duration-300 hover:scale-105 hover:shadow-lg stagger-fade-in" style="transition-delay: 0.6s;">
+                            <h4 class="font-bold text-gray-900">Audio Output</h4>
+                            <p class="text-sm text-gray-700">3W Speaker</p>
+                            <div class="text-4xl mt-2">🔊</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        ---
+
+        <section id="working" class="py-12 sm:py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                   <div class="text-center">
+                     <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in">Functionality & Operation</h2>
+                     <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 fade-in">
+                         A step-by-step guide to the device's functionality, from power-on to playback.
+                     </p>
+                 </div>
+                <div class="mt-12">
+                    <ol class="relative border-l border-gray-200 dark:border-gray-700" id="stepper-list">                 
+                        <li class="mb-10 ml-6 stepper-item">           
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-8 ring-white dark:ring-gray-900 dark:bg-indigo-900 text-indigo-800 font-bold stepper-circle">
+                                <p class="text-md">1</p>
+                            </span>
+                            <h3 class="flex items-center mb-1 text-xl font-semibold text-gray-900">Power On</h3>
+                            <p class="mb-4 text-base font-normal text-gray-500">The user activates the device using the main On/Off switch. This connects the 3.7V Li-ion battery to the power input of both the TP4056 charging module and the GPD2846A MP3 module.</p>
+                        </li>
+                        <li class="mb-10 ml-6 stepper-item">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-8 ring-white dark:ring-gray-900 dark:bg-indigo-900 text-indigo-800 font-bold stepper-circle">
+                               <p class="text-md">2</p>
+                            </span>
+                            <h3 class="mb-1 text-xl font-semibold text-gray-900">SD Card Initialization</h3>
+                            <p class="text-base font-normal text-gray-500">Upon receiving power, the GPD2846A module automatically initializes and checks for a microSD card in its slot. If a valid, FAT32-formatted card containing MP3 files is detected, the module prepares for playback.</p>
+                        </li>
+                        <li class="mb-10 ml-6 stepper-item">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-8 ring-white dark:ring-gray-900 dark:bg-indigo-900 text-indigo-800 font-bold stepper-circle">
+                               <p class="text-md">3</p>
+                            </span>
+                            <h3 class="mb-1 text-xl font-semibold text-gray-900">Automatic Playback</h3>
+                            <p class="text-base font-normal text-gray-500">The GPD2846A begins playing the first MP3 file found on the card. The audio is decoded internally and sent to the speaker output pins.</p>
+                        </li>
+                           <li class="mb-10 ml-6 stepper-item">
+                            <span class="absolute flex items-center justify-center w-8 h-8 bg-indigo-100 rounded-full -left-4 ring-8 ring-white dark:ring-gray-900 dark:bg-indigo-900 text-indigo-800 font-bold stepper-circle">
+                               <p class="text-md">4</p>
+                            </span>
+                            <h3 class="mb-1 text-xl font-semibold text-gray-900">User Control</h3>
+                            <p class="text-base font-normal text-gray-500">The user can adjust the volume with the 10kΩ potentiometer and skip to the next track with the push button.</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="gallery" class="py-12 sm:py-16 bg-gray-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in">Project Gallery</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 fade-in">
+                        A visual showcase of the final assembled Vedic Chanting Machine.
+                    </p>
+                </div>
+                <div class="mt-12 relative">
+                    <div id="image-carousel" class="flex overflow-hidden rounded-lg shadow-xl relative">
+                        </div>
+                    <button id="prev-btn" class="absolute top-1/2 left-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    </button>
+                    <button id="next-btn" class="absolute top-1/2 right-4 -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white z-10">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                    </button>
+                    <div id="carousel-indicators" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex space-x-2">
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section id="analysis" class="py-12 sm:py-16 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl fade-in">Project Analysis</h2>
+                    <p class="mt-4 max-w-2xl mx-auto text-xl text-gray-500 fade-in">
+                        A summary of the project's strengths, limitations, and potential applications.
+                    </p>
+                </div>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl p-6 fade-in">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium">Advantages</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>Simple and minimalist design.</li>
+                            <li>Highly portable and rechargeable.</li>
+                            <li>Intuitive and easy for anyone to operate.</li>
+                            <li>Audio content is easily customizable via SD card.</li>
+                            <li>Low production cost.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl p-6 fade-in" style="transition-delay: 0.1s;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-red-100 text-red-600 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium">Limitations</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-gray-600 space-y-2">
+                            <li>No visual display for track information.</li>
+                            <li>Lacks remote control functionality.</li>
+                            <li>Limited interactivity (play/next only).</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-lg overflow-hidden transition-transform duration-300 hover:transform hover:-translate-y-1 hover:shadow-xl p-6 md:col-span-2 lg:col-span-1 fade-in" style="transition-delay: 0.2s;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M12 21v-1" /></svg>
+                            </div>
+                            <h3 class="ml-4 text-lg font-medium">Future Enhancements</h3>
+                        </div>
+                           <div id="accordion-container" class="space-y-2">
+                               </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        ---
+
+        <section class="bg-black text-white">
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+        <h2 class="text-3xl font-extrabold tracking-tight text-center fade-in">Conclusion</h2>
+        <div class="mt-8 text-center">
+            <p class="text-lg text-gray-300 fade-in">
+                The Autonomous Vedic Chanting System successfully meets its core objective of providing a simple, portable, and cost-effective solution for audio playback. Its minimalist design ensures reliability and ease of use, making it an excellent tool for personal spiritual practice. While the current implementation has its limitations, it establishes a solid foundation for future development, with clear pathways for adding advanced features such as display integration, wireless connectivity, and more sophisticated user controls. This project serves as a practical demonstration of how fundamental electronic components can be integrated to create a valuable and user-centric product.
+            </p>
+        </div>
+    </div>
+</section>
+
+
+    </main>
+    
+    <footer class="bg-white">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-base text-gray-400">&copy; Vedic Chanting System Project Developed at CSIR-CEERI, Pilani.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Intersection Observer for fade-in animations
+            const fadeInElements = document.querySelectorAll('.fade-in');
+            const slideInBottomElements = document.querySelectorAll('.slide-in-bottom');
+            const staggerFadeInElements = document.querySelectorAll('.stagger-fade-in');
+
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            };
+
+            const fadeInObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            fadeInElements.forEach(el => {
+                fadeInObserver.observe(el);
+            });
+
+            const slideInBottomObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            slideInBottomElements.forEach(el => {
+                slideInBottomObserver.observe(el);
+            });
+
+            const staggerFadeInObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Apply staggered animation
+                        Array.from(entry.target.children).forEach((child, index) => {
+                            if (child.classList.contains('stagger-fade-in')) {
+                                setTimeout(() => {
+                                    child.classList.add('is-visible');
+                                }, index * 150); // Stagger by 150ms
+                            }
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.flex-col.md\\:flex-row').forEach(container => {
+                 staggerFadeInObserver.observe(container);
+            });
+
+
+            // Component Data
+            const components = [
+                { name: 'GPD2846A MP3 Module', desc: 'The core of the system, this module decodes MP3 files from the SD card and outputs analog audio. It handles all file reading and playback logic, eliminating the need for a separate microcontroller.', img: 'https://i.imgur.com/K1i7z8E.jpeg' },
+                { name: 'TP4056 Charging Module', desc: 'A dedicated module for safely charging the Li-ion battery via a USB-C port. It provides overcharge and over-discharge protection, ensuring battery longevity and safety.', img: 'https://i.imgur.com/qLh20zV.jpeg' },
+                { name: '3.7V 500mAh Li-ion Battery', desc: 'A rechargeable power source that makes the device portable. The 500mAh capacity offers several hours of continuous playback.', img: 'https://i.imgur.com/0i1g62x.jpeg' },
+                { name: '10kΩ Potentiometer', desc: 'A variable resistor used as a manual volume control. It adjusts the amplitude of the audio signal before it reaches the speaker.', img: 'https://i.imgur.com/W23F92q.png' },
+                { name: 'Push Button', desc: 'A momentary switch that, when pressed, signals the MP3 module to skip to the next track on the SD card.', img: 'https://i.imgur.com/xT5R9zE.jpeg' },
+                { name: 'On/Off Switch', desc: 'A simple slide switch that completes or breaks the main power circuit, turning the entire device on or off.', img: 'https://i.imgur.com/z0T0o8t.jpeg' },
+                { name: 'Speaker', desc: 'A small 3W, 4Ω driver that converts the electrical audio signal from the MP3 module into audible sound waves.', img: 'https://i.imgur.com/vHqLh7P.jpeg' },
+                { name: 'MicroSD Card', desc: 'Removable storage for the MP3 audio files. The system supports FAT32 formatted cards.', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Micro-sd-card.jpg/1200px-Micro-sd-card.jpg' }
+            ];
+
+            const componentList = document.getElementById('component-list');
+            const componentDisplay = document.getElementById('component-display');
+
+            components.forEach((comp, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<button data-index="${index}" class="component-btn w-full text-left p-3 rounded-md hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-200 ease-in-out slide-in-bottom" style="transition-delay: ${index * 0.1}s;">${comp.name}</button>`;
+                componentList.appendChild(li);
+            });
+
+            componentList.addEventListener('click', (e) => {
+                if (e.target && e.target.matches('button.component-btn')) {
+                    document.querySelectorAll('.component-btn').forEach(btn => btn.classList.remove('bg-indigo-600', 'text-white'));
+                    e.target.classList.add('bg-indigo-600', 'text-white');
+
+                    const index = e.target.getAttribute('data-index');
+                    const selectedComponent = components[index];
+                    componentDisplay.innerHTML = `
+                        <img src="${selectedComponent.img}" alt="${selectedComponent.name}" class="max-h-48 mb-4 rounded-lg shadow-md object-cover w-auto">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">${selectedComponent.name}</h3>
+                        <p class="mt-2 text-gray-700 text-center">${selectedComponent.desc}</p>
+                    `;
+                }
+            });
+
+            // Accordion for Future Enhancements
+            const enhancements = [
+                { title: 'OLED Display', content: 'Incorporate a small OLED screen to display track information, battery status, and other system data, significantly enhancing user feedback.' },
+                { title: 'Bluetooth Connectivity', content: 'Add a Bluetooth module to allow wireless streaming from a phone or other device, turning it into a versatile speaker and expanding its utility.' },
+                { title: 'Multi-language Support', content: 'Enable functionality to switch between different folders on the SD card, each containing chants in a different language or genre, providing more content options.' },
+                { title: 'Advanced Control with Arduino', content: 'Integrate a microcontroller like an Arduino to add features suchs as timed playback, custom playlists, and more complex, programmable user interfaces.' },
+                { title: 'Battery Level Indicator', content: 'Add a simple LED-based or on-screen indicator to show the remaining battery life, improving usability and preventing unexpected shutdowns.' }
+            ];
+            
+            const accordionContainer = document.getElementById('accordion-container');
+            enhancements.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.innerHTML = `
+                    <h3>
+                        <button type="button" class="accordion-button flex items-center justify-between w-full p-4 font-medium text-left text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100 transition-colors duration-200 ease-in-out" data-accordion-target="#accordion-body-${index}" aria-expanded="false" aria-controls="accordion-body-${index}">
+                            <span>${item.title}</span>
+                            <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                    </h3>
+                    <div id="accordion-body-${index}" class="accordion-content">
+                        <div class="p-5 border border-t-0 border-gray-200 text-gray-600">
+                            <p class="mb-2 text-gray-700">${item.content}</p>
+                        </div>
+                    </div>
+                `;
+                accordionContainer.appendChild(itemDiv);
+            });
+            
+            accordionContainer.addEventListener('click', function(e) {
+                const button = e.target.closest('button[data-accordion-target]');
+                if (!button) return;
+
+                const targetId = button.getAttribute('data-accordion-target');
+                const targetEl = document.querySelector(targetId);
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                document.querySelectorAll('.accordion-button[aria-expanded="true"]').forEach(openButton => {
+                    if (openButton !== button) {
+                        openButton.setAttribute('aria-expanded', 'false');
+                        document.querySelector(openButton.getAttribute('data-accordion-target')).classList.remove('open');
+                    }
+                });
+
+                button.setAttribute('aria-expanded', !isExpanded);
+                targetEl.classList.toggle('open');
+            });
+
+
+            // Gallery Carousel Logic
+            const galleryImages = [
+                { src: 'https://i.imgur.com/kS5x87J.jpeg', alt: 'Final Assembled Vedic Chanting Machine - Top View', caption: 'Top-down view of the internal components and wiring.' },
+                { src: 'https://i.imgur.com/GzB9x9L.jpeg', alt: 'Vedic Chanting Machine - Side View', caption: 'Side profile showcasing the compact design and external ports.' },
+                { src: 'https://i.imgur.com/Q2y8K0D.jpeg', alt: 'Vedic Chanting Machine - Front View', caption: 'Front view highlighting user controls and speaker grill.' },
+                { src: 'https://i.imgur.com/P5tY7wJ.jpeg', alt: 'Vedic Chanting Machine - Internal Wiring', caption: 'Close-up of the circuit board and neatly arranged wires.' }
+            ];
+
+            const carouselContainer = document.getElementById('image-carousel');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const indicatorsContainer = document.getElementById('carousel-indicators');
+            let currentIndex = 0;
+
+            function renderCarousel() {
+                carouselContainer.innerHTML = '';
+                indicatorsContainer.innerHTML = '';
+
+                galleryImages.forEach((image, index) => {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = `w-full flex-shrink-0 transition-transform duration-500 ease-in-out transform ${index === currentIndex ? 'translate-x-0 active-zoom' : (index < currentIndex ? '-translate-x-full absolute top-0 left-0' : 'translate-x-full absolute top-0 left-0')} carousel-image-wrapper`;
+                    imgDiv.innerHTML = `
+                        <img src="${image.src}" alt="${image.alt}" class="w-full h-96 object-contain rounded-lg">
+                        <p class="text-center text-gray-700 mt-2">${image.caption}</p>
+                    `;
+                    carouselContainer.appendChild(imgDiv);
+
+                    const indicator = document.createElement('button');
+                    indicator.className = `w-3 h-3 rounded-full bg-gray-400 hover:bg-gray-600 transition-colors duration-300 ${index === currentIndex ? 'bg-gray-800' : ''}`;
+                    indicator.addEventListener('click', () => {
+                        currentIndex = index;
+                        renderCarousel();
+                    });
+                    indicatorsContainer.appendChild(indicator);
+                });
+
+                const items = carouselContainer.children;
+                Array.from(items).forEach((item, index) => {
+                    item.style.transform = `translateX(${100 * (index - currentIndex)}%)`;
+                });
+            }
+
+            function showNextImage() {
+                currentIndex = (currentIndex + 1) % galleryImages.length;
+                renderCarousel();
+            }
+
+            function showPrevImage() {
+                currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+                renderCarousel();
+            }
+
+            prevBtn.addEventListener('click', showPrevImage);
+            nextBtn.addEventListener('click', showNextImage);
+
+            renderCarousel(); // Initial render
+
+            // How It Works Stepper Intersection Observer
+            const stepperItems = document.querySelectorAll('.stepper-item');
+            const stepperObserverOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.5 // Trigger when 50% of the item is visible
+            };
+
+            const stepperObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        stepperItems.forEach(item => item.classList.remove('active'));
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, stepperObserverOptions);
+
+            stepperItems.forEach(item => {
+                stepperObserver.observe(item);
+            });
+        });
+    </script>
+</body>
+</html>
